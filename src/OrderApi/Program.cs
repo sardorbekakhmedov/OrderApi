@@ -1,6 +1,15 @@
 using OrderApi.Extensions;
+using OrderApi.MiddleWares;
+using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var logger = new LoggerConfiguration()
+    .WriteTo.File(@"Loggers\OrderApiErrors.txt", LogEventLevel.Error, rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Logging.AddSerilog(logger);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -25,6 +34,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseErrorHandlerMiddleware();
 
 app.UseAuthorization();
 
