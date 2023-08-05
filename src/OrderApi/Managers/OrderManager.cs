@@ -14,12 +14,12 @@ public class OrderManager : IOrderManager
         _orderRepository = orderRepository;
     }
 
-    public Task<Order> CreateUserAsync(CreateOrderModel model)
+    public Task<Order> CreateOrderAsync(CreateOrderModel model)
     {
         throw new NotImplementedException();
     }
 
-    public IEnumerable<Order> GetUsersAsync()
+    public IEnumerable<Order> GetOrdersAsync()
     {
         throw new NotImplementedException();
     }
@@ -29,7 +29,7 @@ public class OrderManager : IOrderManager
         throw new NotImplementedException();
     }
 
-    public Task<Order> UpdateAsync(Guid orderId)
+    public Task<Order> UpdateAsync(Guid orderId, UpdateOrderModel model)
     {
         throw new NotImplementedException();
     }

@@ -14,12 +14,12 @@ public class CategoryManager : ICategoryManager
         _categoryRepository = categoryRepository;
     }
 
-    public Task<Category> CreateUserAsync(CreateCategoryModel model)
+    public Task<Category> CreateCategoryAsync(CreateCategoryModel model)
     {
         throw new NotImplementedException();
     }
 
-    public IEnumerable<Category> GetUsersAsync()
+    public IEnumerable<Category> GetCategoriesAsync()
     {
         throw new NotImplementedException();
     }
@@ -29,7 +29,7 @@ public class CategoryManager : ICategoryManager
         throw new NotImplementedException();
     }
 
-    public Task<Category> UpdateAsync(Guid categoryId)
+    public Task<Category> UpdateAsync(Guid categoryId, UpdateCategoryModel model)
     {
         throw new NotImplementedException();
     }

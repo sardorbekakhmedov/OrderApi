@@ -15,7 +15,7 @@ public class ProductManager : IProductManager
         _productRepository = productRepository;
     }
 
-    public async Task<ProductModel> CreateUserAsync(Guid categoryId, CreateProductModel model)
+    public async Task<ProductModel> CreateProductAsync(Guid categoryId, CreateProductModel model)
     {
         var product = new Product()
         {
@@ -32,7 +32,7 @@ public class ProductManager : IProductManager
         return product.ToProductModel();
     }
 
-    public IEnumerable<ProductModel> GetUsersAsync()
+    public IEnumerable<ProductModel> GetProductsAsync()
     {
         throw new NotImplementedException();
     }
