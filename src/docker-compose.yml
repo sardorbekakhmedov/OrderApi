@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+  #order_api:
+  #  image: order_api
+  #  container_name: order_api
+  #  ports:
+  #    - "8000:80"
+  #  build:
+  #     context: .
+  #     dockerfile: Dockerfile.OrderApi
+  #  environment:
+  #    - ASPNETCORE_ENVIRONMENT=Development
+  #    - ConnectionStrings__OrderDb=Server=order_api_db;Port=5432;Database=postgres_db;User Id=postgres_username;Password=postgres_password;
+  #  depends_on:
+  #    - order_api_db
+  #  networks:
+  #    order_api:
+
+  order_api_db:
+    image: postgres:latest
+    container_name: order_api_db
+    ports:
+      - "5431:5432"
+    restart: always
+    environment:
+      POSTGRES_USER: postgres_username
+      POSTGRES_PASSWORD: postgres_password
+      POSTGRES_DB: postgres_db
+    volumes:
+      - order_api_data:/var/lib/postgresql/data 
+    networks:
+      order_api:
+   
+networks:
+  order_api:
+  
+volumes:
+  order_api_data:    
