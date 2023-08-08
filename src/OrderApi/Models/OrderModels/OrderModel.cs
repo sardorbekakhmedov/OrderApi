@@ -7,4 +7,6 @@ public class OrderModel
     public Guid UserId { get; set; }
     public int QuantityProduct { get; set; }
     public decimal AmountPrice { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime? UpdateAt { get; set; }
 }

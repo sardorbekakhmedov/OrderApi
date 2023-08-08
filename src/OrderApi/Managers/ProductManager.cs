@@ -1,7 +1,10 @@
 ﻿using OrderApi.Entities;
+using OrderApi.Entities.PageFilters;
+using OrderApi.Exceptions;
 using OrderApi.Extensions.EntityExtensions;
 using OrderApi.Managers.Interfaces;
 using OrderApi.Models.ProductModels;
+using OrderApi.Repositories;
 using OrderApi.Repositories.Interfaces;
 
 namespace OrderApi.Managers;
@@ -9,22 +12,26 @@ namespace OrderApi.Managers;
 public class ProductManager : IProductManager
 {
     private readonly IProductRepository _productRepository;
+    private readonly ICategoryRepository _categoryRepository;
 
-    public ProductManager(IProductRepository productRepository)
+    public ProductManager(IProductRepository productRepository, ICategoryRepository categoryRepository)
     {
         _productRepository = productRepository;
+        _categoryRepository = categoryRepository;
     }
 
-    public async Task<ProductModel> CreateProductAsync(Guid categoryId, CreateProductModel model)
+    public async Task<ProductModel> CreateProductAsync(string categoryName, CreateProductModel model)
     {
-        var product = new Product()
+        var category = await _categoryRepository.GetByCategoryNameAsync(categoryName) ??
+                       throw new ObjectNotFoundException(nameof(Category));
+
+        var product = new Product
         {
-            CategoryId = categoryId,
+            CategoryId = category.Id,
             ProductName = model.ProductName,
             Description = model.ProductDescription,
             UnitPrice = model.UnitPrice,
             UnitInStock = model.UnitInStock,
-            CreatedAt = DateTime.UtcNow,
             Discontinued = false,
         };
 
@@ -32,23 +39,42 @@ public class ProductManager : IProductManager
         return product.ToProductModel();
     }
 
-    public IEnumerable<ProductModel> GetProductsAsync()
+    public async Task<IEnumerable<ProductModel>> GetProductsAsync(ProductFilter productFilter)
     {
-        throw new NotImplementedException();
+        var products = await _productRepository.GetProductsAsync(productFilter);
+        return products.Select(p => p.ToProductModel());
     }
 
-    public Task<ProductModel> GetByIdAsync(Guid productId)
+    public async Task<ProductModel> GetByIdAsync(Guid productId)
     {
-        throw new NotImplementedException();
+        var product = await _productRepository.GetByIdAsync(productId) 
+                      ?? throw new ObjectNotFoundException(nameof(Product));
+
+        return product.ToProductModel();
     }
 
-    public Task<ProductModel> UpdateAsync(Guid productId, UpdateProductModel model)
+    public async Task<ProductModel> UpdateAsync(Guid productId, UpdateProductModel model)
     {
-        throw new NotImplementedException();
+        var product = await _productRepository.GetByIdAsync(productId)
+                      ?? throw new ObjectNotFoundException(nameof(Product));
+
+        product.CategoryId = model.CategoryId ?? product.CategoryId;
+        product.ProductName = model.ProductName ?? product.ProductName;
+        product.Description = model.ProductDescription ?? product.Description;
+        product.UnitPrice = model.UnitPrice ?? product.UnitPrice;
+        product.UnitInStock = model.UnitInStock ?? product.UnitInStock;
+        product.Discontinued = model.Discontinued ?? product.Discontinued;
+        product.Discontinued = model.Discontinued ?? product.Discontinued;
+
+        var updateProduct = await _productRepository.UpdateAsync(product);
+        return updateProduct.ToProductModel();
     }
 
-    public Task DeleteAsync(Guid productId)
+    public async Task DeleteAsync(Guid productId)
     {
-        throw new NotImplementedException();
+        var product = await _productRepository.GetByIdAsync(productId)
+                      ?? throw new ObjectNotFoundException(nameof(Product));
+
+        await _productRepository.RemoveAsync(product);
     }
 }

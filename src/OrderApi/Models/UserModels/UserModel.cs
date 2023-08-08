@@ -9,6 +9,8 @@ public class UserModel
     public required string PhoneNumber { get; set; }
     public string? ImageUrl { get; set; }
     public string? Email { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime? UpdateAt { get; set; }
 
     public virtual IEnumerable<OrderModel>? Orders { get; set; }
 }

@@ -8,4 +8,6 @@ public class ProductModel
     public string? Description { get; set; }
     public decimal UnitPrice { get; set; }
     public int UnitInStock { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime? UpdateAt { get; set; }
 }

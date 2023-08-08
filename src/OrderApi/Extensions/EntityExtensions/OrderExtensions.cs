@@ -14,6 +14,8 @@ public static class OrderExtensions
             UserId = order.UserId,
             QuantityProduct = order.QuantityProduct,
             AmountPrice = order.AmountPrice,
+            CreatedAt  = order.CreatedAt,
+            UpdateAt = order.UpdateAt
         };
     }
 }

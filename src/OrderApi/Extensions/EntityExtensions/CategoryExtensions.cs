@@ -12,6 +12,8 @@ public static class CategoryExtensions
         {
             CategoryName = category.CategoryName,
             Description = category.Description,
+            CreatedAt = category.CreatedAt,
+            UpdateAt = category.UpdateAt
         };
 
         var productModels = new List<ProductModel>();

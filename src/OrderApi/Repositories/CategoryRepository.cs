@@ -1,4 +1,5 @@
-﻿using OrderApi.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using OrderApi.Context;
 using OrderApi.Entities;
 using OrderApi.Entities.HelperEntities;
 using OrderApi.Entities.PageFilters;
@@ -31,5 +32,10 @@ public class CategoryRepository : GenericRepository<Category, AppDbContext>, ICa
             query = query.Where(c => c.CreatedAt < filter.ToDate);
 
         return await query.ToPagedListAsync(_httpContext, filter);
+    }
+
+    public async Task<Category?> GetByCategoryNameAsync(string categoryName)
+    {
+        return await DbSet.SingleOrDefaultAsync(c => c.CategoryName == categoryName);
     }
 }
