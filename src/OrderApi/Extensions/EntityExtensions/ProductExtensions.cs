@@ -15,6 +15,8 @@ public static class ProductExtensions
             Description = product.Description,
             UnitPrice = product.UnitPrice,
             UnitInStock = product.UnitInStock,
+            CreatedAt = product.CreatedAt,
+            UpdateAt = product.UpdateAt
         };
     }
 }

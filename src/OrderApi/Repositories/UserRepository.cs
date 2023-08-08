@@ -12,12 +12,10 @@ namespace OrderApi.Repositories;
 public class UserRepository : GenericRepository<User,AppDbContext>, IUserRepository
 {
     private readonly HttpContextHelper _httpContext;
-    private readonly AppDbContext _dbContext;
 
-    public UserRepository(AppDbContext dbContext, HttpContextHelper httpContext) : base(dbContext)
+    public UserRepository(HttpContextHelper httpContext, AppDbContext dbContext) : base(dbContext)
     {
         _httpContext = httpContext;
-        _dbContext = dbContext;
     }
 
     public async Task<IEnumerable<User>> GetUsersAsync(UserFilter filter)
@@ -38,6 +36,6 @@ public class UserRepository : GenericRepository<User,AppDbContext>, IUserReposit
 
     public async Task<User?> GetByUsernameAsync(string username)
     {
-        return await _dbContext.Users.SingleOrDefaultAsync(u => u.Username == username);
+        return await DbSet.SingleOrDefaultAsync(u => u.Username == username);
     }
 }

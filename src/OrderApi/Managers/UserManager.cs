@@ -32,7 +32,6 @@ public class UserManager : IUserManager
            Username = model.Username,
            PhoneNumber = model.PhoneNumber,
            Email = model.Email,
-           CreatedAt = DateTime.UtcNow,
         };
 
         user.PasswordHash = new PasswordHasher<User>().HashPassword(user, model.Password);

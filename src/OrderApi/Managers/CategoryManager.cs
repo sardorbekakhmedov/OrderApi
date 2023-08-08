@@ -1,4 +1,7 @@
 ﻿using OrderApi.Entities;
+using OrderApi.Entities.PageFilters;
+using OrderApi.Exceptions;
+using OrderApi.Extensions.EntityExtensions;
 using OrderApi.Managers.Interfaces;
 using OrderApi.Models.CategoryModels;
 using OrderApi.Repositories.Interfaces;
@@ -14,28 +17,50 @@ public class CategoryManager : ICategoryManager
         _categoryRepository = categoryRepository;
     }
 
-    public Task<Category> CreateCategoryAsync(CreateCategoryModel model)
+    public async Task<CategoryModel> CreateCategoryAsync(CreateCategoryModel model)
     {
-        throw new NotImplementedException();
+        var category = new Category()
+        {
+            CategoryName = model.CategoryName,
+            Description = model.Description,
+        };
+
+        var newCategory = await _categoryRepository.AddAsync(category);
+        return newCategory.ToCategoryModel();
     }
 
-    public IEnumerable<Category> GetCategoriesAsync()
+    public async Task<IEnumerable<CategoryModel>> GetCategoriesAsync(CategoryFilter categoryFilter)
     {
-        throw new NotImplementedException();
+        var categories = await _categoryRepository.GetCategoriesAsync(categoryFilter);
+        return categories.Select(p => p.ToCategoryModel());
     }
 
-    public Task<Category> GetByIdAsync(Guid categoryId)
+    public async Task<CategoryModel> GetByIdAsync(Guid categoryId)
     {
-        throw new NotImplementedException();
+        var category = await _categoryRepository.GetByIdAsync(categoryId)
+                      ?? throw new ObjectNotFoundException(nameof(Product));
+
+        return category.ToCategoryModel();
     }
 
-    public Task<Category> UpdateAsync(Guid categoryId, UpdateCategoryModel model)
+    public async Task<CategoryModel> UpdateAsync(Guid categoryId, UpdateCategoryModel model)
     {
-        throw new NotImplementedException();
+        var category = await _categoryRepository.GetByIdAsync(categoryId)
+                       ?? throw new ObjectNotFoundException(nameof(Product));
+
+        category.CategoryName = model.CategoryName ?? category.CategoryName;
+        category.Description = model.Description ?? category.Description;
+
+        var updatedCategory = await _categoryRepository.UpdateAsync(category);
+
+        return updatedCategory.ToCategoryModel();
     }
 
-    public Task DeleteAsync(Guid categoryId)
+    public async Task DeleteAsync(Guid categoryId)
     {
-        throw new NotImplementedException();
+        var category = await _categoryRepository.GetByIdAsync(categoryId)
+                       ?? throw new ObjectNotFoundException(nameof(Product));
+
+        await _categoryRepository.RemoveAsync(category);
     }
 }

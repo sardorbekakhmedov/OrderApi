@@ -15,6 +15,8 @@ public static class UserExtensions
             PhoneNumber = user.PhoneNumber,
             Email = user.Email,
             ImageUrl = user.ImageUrl,
+            CreatedAt = user.CreatedAt,
+            UpdateAt = user.UpdateAt
         };
 
         var orderModels = new List<OrderModel>();
