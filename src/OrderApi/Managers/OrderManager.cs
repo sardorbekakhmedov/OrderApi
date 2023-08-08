@@ -1,4 +1,7 @@
 ﻿using OrderApi.Entities;
+using OrderApi.Entities.PageFilters;
+using OrderApi.Exceptions;
+using OrderApi.Extensions.EntityExtensions;
 using OrderApi.Managers.Interfaces;
 using OrderApi.Models.OrderModels;
 using OrderApi.Repositories.Interfaces;
@@ -8,34 +11,66 @@ namespace OrderApi.Managers;
 public class OrderManager : IOrderManager
 {
     private readonly IOrderRepository _orderRepository;
+    private readonly IUserManager _userManager;
+    private readonly IProductManager _productManager;
 
-    public OrderManager(IOrderRepository orderRepository)
+    public OrderManager(IOrderRepository orderRepository, IUserManager userManager, IProductManager productManager)
     {
         _orderRepository = orderRepository;
+        _userManager = userManager;
+        _productManager = productManager;
     }
 
-    public Task<Order> CreateOrderAsync(CreateOrderModel model)
+    public async Task<OrderModel> CreateOrderAsync(CreateOrderModel model)
     {
-        throw new NotImplementedException();
+        var user = await _userManager.GetByIdAsync(model.UserId);
+        var product = await _productManager.GetByIdAsync(model.ProductId);
+
+        var order = new Order
+        {
+            UserId = user.Id,
+            ProductId = product.Id,
+            QuantityProduct = model.QuantityProduct,
+            AmountPrice = model.AmountPrice
+        };
+
+        var newOrder = await _orderRepository.AddAsync(order);
+        return newOrder.ToOrderModel();
     }
 
-    public IEnumerable<Order> GetOrdersAsync()
+    public async Task<IEnumerable<OrderModel>> GetOrdersAsync(OrderFilter orderFilter)
     {
-        throw new NotImplementedException();
+        var orders = await _orderRepository.GetUsersAsync(orderFilter);
+        return orders.Select(o => o.ToOrderModel());
     }
 
-    public Task<Order> GetByIdAsync(Guid orderId)
+    public async Task<OrderModel> GetByIdAsync(Guid orderId)
     {
-        throw new NotImplementedException();
+        var order = await _orderRepository.GetByIdAsync(orderId) 
+            ?? throw new ObjectNotFoundException(nameof(Order));
+
+        return order.ToOrderModel();
     }
 
-    public Task<Order> UpdateAsync(Guid orderId, UpdateOrderModel model)
+    public async Task<OrderModel> UpdateAsync(Guid orderId, UpdateOrderModel model)
     {
-        throw new NotImplementedException();
+        var order = await _orderRepository.GetByIdAsync(orderId)
+                    ?? throw new ObjectNotFoundException(nameof(Order));
+
+        order.UserId = model.UserId ?? order.UserId;
+        order.ProductId = model.ProductId ?? order.ProductId;
+        order.QuantityProduct = model.QuantityProduct ?? order.QuantityProduct;
+        order.AmountPrice = model.AmountPrice ?? order.AmountPrice;
+        
+        var newOrder = await _orderRepository.UpdateAsync(order);
+        return newOrder.ToOrderModel();
     }
 
-    public Task DeleteAsync(Guid orderId)
+    public async Task DeleteAsync(Guid orderId)
     {
-        throw new NotImplementedException();
+        var order = await _orderRepository.GetByIdAsync(orderId)
+                    ?? throw new ObjectNotFoundException(nameof(Order));
+
+        await _orderRepository.RemoveAsync(order);
     }
 }

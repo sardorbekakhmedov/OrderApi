@@ -69,6 +69,12 @@ public class UserManager : IUserManager
         return new TokenResultModel(token, expires, DateTime.UtcNow);
     }
 
+    /// <summary>
+    /// return user-model, Exception ObjectNotFoundException
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    /// <exception cref="ObjectNotFoundException"></exception>
     public async Task<UserModel> GetByIdAsync(Guid userId)
     {
         var user = await _userRepository.GetByIdAsync(userId);
