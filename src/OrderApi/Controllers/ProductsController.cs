@@ -18,7 +18,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost("{categoryName:alpha}")]
-    public async Task<IActionResult> InsertNewProduct(string categoryName, [FromBody] CreateProductModel model)
+    public async ValueTask<IActionResult> InsertNewProduct(string categoryName, [FromBody] CreateProductModel model)
     {
         if (!ModelState.IsValid)
             return BadRequest(model);
@@ -39,7 +39,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllProducts([FromQuery] ProductFilter productFilter)
+    public async ValueTask<IActionResult> GetAllProducts([FromQuery] ProductFilter productFilter)
     {
         if (!ModelState.IsValid)
             return BadRequest(productFilter);
@@ -55,7 +55,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet("{productId:guid}")]
-    public async Task<IActionResult> GetProductById(Guid productId)
+    public async ValueTask<IActionResult> GetProductById(Guid productId)
     {
         try
         {
@@ -72,7 +72,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPut("{productId:guid}")]
-    public async Task<IActionResult> UpdateProduct(Guid productId, [FromBody] UpdateProductModel model)
+    public async ValueTask<IActionResult> UpdateProduct(Guid productId, [FromBody] UpdateProductModel model)
     {
         if (!ModelState.IsValid)
             return BadRequest(model);
@@ -92,7 +92,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpDelete("{productId:guid}")]
-    public async Task<IActionResult> DeleteProduct(Guid productId)
+    public async ValueTask<IActionResult> DeleteProduct(Guid productId)
     {
         try
         {

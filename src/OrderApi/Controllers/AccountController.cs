@@ -17,7 +17,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> RegisterUser([FromForm] CreateUserModel model)
+    public async ValueTask<IActionResult> RegisterUser([FromForm] CreateUserModel model)
     {
         if (!ModelState.IsValid)
             return BadRequest(model);
@@ -33,7 +33,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> LoginUser([FromForm] LoginUserModel model)
+    public async ValueTask<IActionResult> LoginUser([FromForm] LoginUserModel model)
     {
         if (!ModelState.IsValid)
             return BadRequest(model);

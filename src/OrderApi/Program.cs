@@ -2,7 +2,7 @@ using OrderApi.Extensions;
 using OrderApi.MiddleWares;
 using Serilog;
 using Serilog.Events;
-
+ 
 var builder = WebApplication.CreateBuilder(args);
 
 var logger = new LoggerConfiguration()

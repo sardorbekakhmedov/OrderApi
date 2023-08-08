@@ -8,5 +8,5 @@ public class User : BaseEntity
     public string? Email { get; set; }
     public string PasswordHash { get; set; } = null!;
 
-    public virtual IEnumerable<Order>? Orders { get; set; }
+    public IEnumerable<Order>? Orders { get; set; }
 }

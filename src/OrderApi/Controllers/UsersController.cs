@@ -19,7 +19,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetUsers([FromQuery] UserFilter filter)
+    public async ValueTask<IActionResult> GetUsers([FromQuery] UserFilter filter)
     {
         if (!ModelState.IsValid)
             return BadRequest(filter);
@@ -35,7 +35,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("{userId:guid}")]
-    public async Task<IActionResult> GetUsersById(Guid userId)
+    public async ValueTask<IActionResult> GetUsersById(Guid userId)
     {
         try
         {
@@ -53,7 +53,7 @@ public class UsersController : ControllerBase
 
     [HttpPut("{userId:guid}")]
     [Authorize]
-    public async Task<IActionResult> UpdateUser(Guid userId, [FromForm] UpdateUserModel model)
+    public async ValueTask<IActionResult> UpdateUser(Guid userId, [FromForm] UpdateUserModel model)
     {
         if (!ModelState.IsValid)
             return BadRequest(model);
@@ -74,7 +74,7 @@ public class UsersController : ControllerBase
 
     [HttpDelete("{userId:guid}")]
     [Authorize]
-    public async Task<IActionResult> DeleteUser(Guid userId)
+    public async ValueTask<IActionResult> DeleteUser(Guid userId)
     {
         try
         {

@@ -3,7 +3,7 @@
 public class Product : BaseEntity
 {
     public Guid CategoryId { get; set; }
-    public virtual Category? Category { get; set; }
+    public Category? Category { get; set; }
 
     public required string ProductName { get; set; }
     public string? Description { get; set; }
