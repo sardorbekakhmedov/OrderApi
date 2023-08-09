@@ -1,5 +1,5 @@
 ﻿using OrderApi.Entities;
-using OrderApi.Entities.HelperEntities;
+using OrderApi.Entities.PaginationEntities;
 using OrderApi.Managers;
 using OrderApi.Managers.Interfaces;
 using OrderApi.Repositories;

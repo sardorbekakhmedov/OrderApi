@@ -1,4 +1,4 @@
-﻿namespace OrderApi.Entities.HelperEntities;
+﻿namespace OrderApi.Entities.PaginationEntities;
 
 public class PaginationMetaData
 {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using OrderApi.Entities.HelperEntities;
+using OrderApi.Entities.PaginationEntities;
 
 namespace OrderApi.Extensions;
 

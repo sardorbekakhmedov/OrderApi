@@ -1,12 +1,12 @@
-﻿namespace OrderApi.Entities.HelperEntities;
+﻿namespace OrderApi.Entities.PaginationEntities;
 
 public class PaginationParams
 {
     private const int MinPageSize = 1;
     private const int MaxPageSize = 500;
 
-    private int _pageSize;
-    private int _pageNumber;
+    private int _pageSize = 5;
+    private int _pageNumber =1;
 
     public int PageSize
     {

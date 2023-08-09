@@ -1,4 +1,4 @@
-﻿using OrderApi.Entities.HelperEntities;
+﻿using OrderApi.Entities.PaginationEntities;
 
 namespace OrderApi.Entities.PageFilters;
 

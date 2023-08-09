@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrderApi.Context;
 using OrderApi.Entities;
-using OrderApi.Entities.HelperEntities;
 using OrderApi.Entities.PageFilters;
+using OrderApi.Entities.PaginationEntities;
 using OrderApi.Extensions;
 using OrderApi.Repositories.GenericRepository;
 using OrderApi.Repositories.Interfaces;
